@@ -1,4 +1,4 @@
-export const weather = [
+export const destination = [
   {
     locationName: '臺北市',
     locationValue: 'Taipei',
