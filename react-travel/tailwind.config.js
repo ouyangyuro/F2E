@@ -21,7 +21,18 @@ module.exports = {
       '2xl': '1440px',
       // desktop => @media (min-width: 1440px) { ... }
     },
-    extend: {},
+    extend: {
+      gridTemplateRows: {
+        // Simple 8 row grid
+        8: 'repeat(8, minmax(0, 1fr))',
+
+        // Complex site-specific row configuration
+        layout: '200px minmax(0, 200px) 500px',
+      },
+      margin: {
+        '24px': '24px',
+      },
+    },
   },
   variants: {
     extend: {},

@@ -14,7 +14,7 @@ function Home() {
       {/* <!-- body start --> */}
       <div className="container mx-auto">
         <div className="wrap bg-gray-50">
-          <div className="grid grid-rows-6 grid-cols-4">
+          <div className="grid grid-rows-layout grid-cols-4">
             {/* <!-- =========nav start========= --> */}
             <nav className="row-span-6 auto-cols-max bg-white">
               <Nav />

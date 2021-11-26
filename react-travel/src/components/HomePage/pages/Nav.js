@@ -1,4 +1,16 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+//====== below api connect tool start ======//
+import axios from 'axios';
+//====== above api connect tool end ======//
+
+//====== below 加密 tool start ======//
+import jsSHA from 'jssha';
+//====== above 加密 tool end ======//
+
+//====== below 取得Context資料 start ======//
+import { useData } from '../../../utils/context';
+//====== above 取得Context資料 end ======//
 
 //====== img start ======//
 import logo from '../../../img/LOGO.svg';
@@ -15,45 +27,106 @@ import travel from '../../../img/travel.svg';
 //====== img end ======//
 
 function Nav() {
+  const { setTravelData } = useData(); // 取得觀光Data
+  const [keywordTxt, setKeywordTxt] = useState(''); // 搜尋的關鍵字
+  console.log('keywordTxt out', keywordTxt); //for test FIXME:
+
+  //=== 搜尋關鍵字 Api star ===//
+  async function sendSearch() {
+    console.log('keywordTxt in', keywordTxt); //for test FIXME:
+
+    try {
+      const travelData = await axios.get(
+        `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$filter=contains(Name,'${keywordTxt}')&$top=${30}&$format=JSON`,
+        {
+          headers: getAuthorizationHeader(),
+        }
+      );
+      console.log('travelData', travelData.data); //for test FIXME:
+      setTravelData(travelData.data);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  function getAuthorizationHeader() {
+    //  填入自己 ID、KEY 開始
+    let AppID = process.env.REACT_APP_TDX_apiId;
+    let AppKey = process.env.REACT_APP_TDX_apiKey;
+    //  填入自己 ID、KEY 結束
+    let GMTString = new Date().toGMTString();
+    let ShaObj = new jsSHA('SHA-1', 'TEXT');
+    ShaObj.setHMACKey(AppKey, 'TEXT');
+    ShaObj.update('x-date: ' + GMTString);
+    let HMAC = ShaObj.getHMAC('B64');
+    let Authorization =
+      'hmac username="' +
+      AppID +
+      '", algorithm="hmac-sha1", headers="x-date", signature="' +
+      HMAC +
+      '"';
+    return { Authorization: Authorization, 'X-Date': GMTString };
+  }
+  //=== 搜尋關鍵字 Api end ===//
+
+  //=== 搜尋input完，按enter事件 start ===//
+  const handleEnterKey = (e) => {
+    if (e.nativeEvent.keyCode === 13) {
+      sendSearch();
+    }
+  };
+  //=== 搜尋input完，按enter事件 end ===//
+
   return (
     <>
-      <div className="nav_container fixed">
+      <div className="nav_container sticky top-0">
         <div className="nav_top">
           <div className="nav_logo">
             <img src={logo} alt="nav logo" />
           </div>
-          <div className="nav_searchPlace">
-            <form className="relative">
-              {/*below search places */}
-              <button>
-                <img
-                  src={arrow}
-                  alt="btn_places"
-                  className="absolute 2xl:right-3 xl:right-14 lg:right-28 transform -translate-y-2/3"
-                />
-              </button>
-              <input
-                type="text"
-                className="mt-4 rounded-md 2xl:w-full xl:w-5/6 lg:w-2/3 border-gray-200 bg-gray-100 text-gray-700 focus:border-gray-500 focus:bg-white"
-                placeholder="目的地"
+          <div className="nav_searchPlace relative">
+            {/*below search places */}
+            <button>
+              <img
+                src={arrow}
+                alt="btn_places"
+                className="absolute 2xl:right-3 xl:right-14 lg:right-28 transform -translate-y-2/3"
               />
-              {/*above search places */}
+            </button>
+            <input
+              type="text"
+              className="mt-4 rounded-md 2xl:w-full xl:w-5/6 lg:w-2/3 border-gray-200 bg-gray-100 text-gray-700 focus:border-gray-500 focus:bg-white"
+              placeholder="目的地"
+            />
+            <div className="location bg-gray-500">
+              <div className="flex flex-wrap">
+                <p>台北市</p>
+                <p>台中市</p>
+                <p>台南市</p>
+                <p>台北市</p>
+                <p>台中市</p>
+                <p>台南市</p>
+              </div>
+            </div>
+            {/*above search places */}
 
-              {/*below search keyword */}
-              <button>
-                <img
-                  src={search}
-                  alt="btn_search"
-                  className="absolute 2xl:right-3 xl:right-14 lg:right-28 transform translate-y-10"
-                />
-              </button>
-              <input
-                type="text"
-                className="mt-4 rounded-md 2xl:w-full xl:w-5/6 lg:w-2/3 border-gray-200 bg-gray-100 text-gray-700 focus:border-gray-500 focus:bg-white"
-                placeholder="搜尋關鍵字"
+            {/*below search keyword */}
+            <button onClick={sendSearch}>
+              <img
+                src={search}
+                alt="btn_search"
+                className="absolute 2xl:right-3 xl:right-14 lg:right-28 transform translate-y-10"
               />
-              {/*above search keyword */}
-            </form>
+            </button>
+            <input
+              type="text"
+              className="mt-4 rounded-md 2xl:w-full xl:w-5/6 lg:w-2/3 border-gray-200 bg-gray-100 text-gray-700 focus:border-gray-500 focus:bg-white"
+              placeholder="搜尋關鍵字"
+              value={keywordTxt}
+              onChange={(e) => setKeywordTxt(e.target.value)}
+              onKeyPress={handleEnterKey}
+            />
+            {/*above search keyword */}
             <hr className="mt-5 2xl:w-full xl:w-5/6 lg:w-2/3" />
           </div>
         </div>

@@ -122,6 +122,18 @@ nav {
   }
   .nav_searchPlace {
     max-width: 306px;
+    .location{
+      padding: 12px;
+      border-radius: 12px;
+      box-shadow: $box-shadow;
+      p{
+        padding: 8px;
+        border: #3FB195 1px solid;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        width: 78px;
+      }
+    }
   }
 }
 
