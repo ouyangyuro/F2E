@@ -2,6 +2,7 @@
   "name": "react-travel",
   "version": "0.1.0",
   "private": true,
+  "homepage": "http://ouyangyuro.github.io/F2E/react-travel",
   "dependencies": {
     "@craco/craco": "^6.4.0",
     "@tailwindcss/forms": "^0.3.4",
