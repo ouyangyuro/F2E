@@ -23,7 +23,7 @@ function App() {
           <ScrollToTop>
             <Switch>
               {/* //===homepage 路由放最下面===// */}
-              <Route exact path="/">
+              <Route exact path="/F2E">
                 <Home />
               </Route>
             </Switch>
