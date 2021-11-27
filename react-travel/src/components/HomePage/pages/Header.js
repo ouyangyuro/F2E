@@ -1,7 +1,7 @@
 import React from 'react';
 
 //====== img start ======//
-import banner from '../../../img/banner.png';
+import banner from '../../../image/banner.png';
 //====== img end ======//
 
 function Header() {

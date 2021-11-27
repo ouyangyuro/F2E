@@ -13,17 +13,17 @@ import { useData } from '../../../utils/context';
 //====== above 取得Context資料 end ======//
 
 //====== img start ======//
-import logo from '../../../img/LOGO.svg';
-import arrow from '../../../img/ArrowDown.svg';
-import search from '../../../img/Search.svg';
-import history from '../../../img/history.svg';
-import outside from '../../../img/outside.svg';
-import religion from '../../../img/religion.svg';
-import lantern from '../../../img/lantern.svg';
-import view from '../../../img/view.svg';
-import food from '../../../img/food.svg';
-import live from '../../../img/live.svg';
-import travel from '../../../img/travel.svg';
+import logo from '../../../image/LOGO.svg';
+import arrow from '../../../image/ArrowDown.svg';
+import search from '../../../image/Search.svg';
+import history from '../../../image/history.svg';
+import outside from '../../../image/outside.svg';
+import religion from '../../../image/religion.svg';
+import lantern from '../../../image/lantern.svg';
+import view from '../../../image/view.svg';
+import food from '../../../image/food.svg';
+import live from '../../../image/live.svg';
+import travel from '../../../image/travel.svg';
 //====== img end ======//
 
 function Nav() {
