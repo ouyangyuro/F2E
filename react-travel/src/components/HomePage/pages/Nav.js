@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom'; //a標籤要變成link
+import $ from 'jquery';
 
 //====== below api connect tool start ======//
 import axios from 'axios';
@@ -11,6 +13,10 @@ import jsSHA from 'jssha';
 //====== below 取得Context資料 start ======//
 import { useData } from '../../../utils/context';
 //====== above 取得Context資料 end ======//
+
+//====== below utils start ======//
+import { destination } from '../../../utils/destination';
+//====== above utils end ======//
 
 //====== img start ======//
 import logo from '../../../image/LOGO.svg';
@@ -28,12 +34,14 @@ import travel from '../../../image/travel.svg';
 
 function Nav() {
   const { setTravelData } = useData(); // 取得觀光Data
-  const [keywordTxt, setKeywordTxt] = useState(''); // 搜尋的關鍵字
+  const [keywordTxt, setKeywordTxt] = useState(); // 搜尋的關鍵字
   console.log('keywordTxt out', keywordTxt); //for test FIXME:
+  const [theme, setTheme] = useState();
+  console.log('theme out', theme); //for test FIXME:
 
   //=== 搜尋關鍵字 Api star ===//
   async function sendSearch() {
-    console.log('keywordTxt in', keywordTxt); //for test FIXME:
+    // console.log('keywordTxt in', keywordTxt); //for test FIXME:
 
     try {
       const travelData = await axios.get(
@@ -42,7 +50,7 @@ function Nav() {
           headers: getAuthorizationHeader(),
         }
       );
-      console.log('travelData', travelData.data); //for test FIXME:
+      // console.log('travelData', travelData.data); //for test FIXME:
       setTravelData(travelData.data);
     } catch (e) {
       console.log(e);
@@ -77,16 +85,66 @@ function Nav() {
   };
   //=== 搜尋input完，按enter事件 end ===//
 
+  //=== 搜尋主題 Api star ===//
+  const getValue = (event) => {
+    //按到img跑這邊找上一層的value
+    if (event.target.value === undefined) {
+      let themeVal = $(event.currentTarget).closest('button').val();
+      console.log('getValue theme', themeVal); //for test FIXME:
+      setTheme(themeVal);
+    } else {
+      console.log('getValue', event.target.value); //for test FIXME:
+      setTheme(event.target.value);
+    }
+  };
+
+  useEffect(() => {
+    if (!theme) {
+      return;
+    }
+    async function sendtheme() {
+      console.log('theme in', theme); //for test FIXME:
+      let location = 'NewTaipei'; //fake TODO:
+      try {
+        const travelData = await axios.get(
+          `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/?$filter=contains(Class1,'${theme}')&$top=${30}&$format=JSON`,
+          {
+            headers: getAuthorizationHeader(),
+          }
+        );
+        console.log('travelData', travelData.data); //for test FIXME:
+        setTravelData(travelData.data);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+    sendtheme();
+  }, [theme]);
+  //=== 搜尋主題 Api end ===//
+
+  //=== 顯示目的地btn start ===//
+  const toggleLocation = (e) => {
+    $('.location').toggle();
+  };
+  //=== 顯示目的地btn end ===//
+
+  //=== 目的地btn被選擇時變色 start ===//
+  const selBtn = (e) => {
+    $(e.currentTarget).toggleClass('selBtn');
+  };
+  //=== 顯示目的地btn被選擇時變色 end ===//
+
   return (
     <>
       <div className="nav_container sticky top-0">
         <div className="nav_top">
-          <div className="nav_logo">
+          {/* to home */}
+          <Link to="/F2E" className="nav_logo">
             <img src={logo} alt="nav logo" />
-          </div>
+          </Link>
           <div className="nav_searchPlace relative">
             {/*below search places */}
-            <button>
+            <button onClick={toggleLocation}>
               <img
                 src={arrow}
                 alt="btn_places"
@@ -98,14 +156,17 @@ function Nav() {
               className="mt-4 rounded-md 2xl:w-full xl:w-5/6 lg:w-2/3 border-gray-200 bg-gray-100 text-gray-700 focus:border-gray-500 focus:bg-white"
               placeholder="目的地"
             />
-            <div className="location bg-gray-500">
-              <div className="flex flex-wrap">
-                <p>台北市</p>
-                <p>台中市</p>
-                <p>台南市</p>
-                <p>台北市</p>
-                <p>台中市</p>
-                <p>台南市</p>
+            <div className="location hidden absolute bg-white z-20">
+              <div className="flex flex-wrap justify-between">
+                {destination.map((location, i) => (
+                  <button
+                    className="hover:bg-primary hover:text-white"
+                    onClick={selBtn}
+                    key={i}
+                  >
+                    {location.locationName}
+                  </button>
+                ))}
               </div>
             </div>
             {/*above search places */}
@@ -137,13 +198,21 @@ function Nav() {
             {/* first row*/}
             <div className="flex justify-around">
               <div>
-                <button className="circle_history">
+                <button
+                  value={'古蹟類'}
+                  onClick={getValue}
+                  className="circle_history"
+                >
                   <img src={history} alt="btn_history" />
                 </button>
                 <p className="theme_font">歷史文化</p>
               </div>
               <div>
-                <button className="circle_outside">
+                <button
+                  value={'自然風景類'}
+                  onClick={getValue}
+                  className="circle_outside"
+                >
                   <img src={outside} alt="btn_outside" />
                 </button>
                 <p className="theme_font">戶外踏青</p>
@@ -152,13 +221,21 @@ function Nav() {
             {/* second row*/}
             <div className="flex justify-around mt-5">
               <div>
-                <button className="circle_religion">
+                <button
+                  value={'廟宇類'}
+                  onClick={getValue}
+                  className="circle_religion"
+                >
                   <img src={religion} alt="btn_religion" />
                 </button>
                 <p className="theme_font">宗教巡禮</p>
               </div>
               <div>
-                <button className="circle_lantern">
+                <button
+                  value={'遊憩類'}
+                  onClick={getValue}
+                  className="circle_lantern"
+                >
                   <img src={lantern} alt="btn_lantern" />
                 </button>
                 <p className="theme_font">親子活動</p>
@@ -167,7 +244,11 @@ function Nav() {
             {/* third row*/}
             <div className="flex justify-around mt-5">
               <div>
-                <button className="circle_view">
+                <button
+                  value={'國家風景區類'}
+                  onClick={getValue}
+                  className="circle_view"
+                >
                   <img src={view} alt="btn_view" />
                 </button>
                 <p className="theme_font text-center">風景區</p>

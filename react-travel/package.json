@@ -17,6 +17,7 @@
     "eslint-plugin-react": "^7.27.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "gh-pages": "^3.2.3",
+    "jquery": "^3.6.0",
     "jssha": "^3.2.0",
     "prettier": "^2.4.1",
     "react": "^17.0.2",

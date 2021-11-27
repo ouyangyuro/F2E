@@ -23,14 +23,14 @@ module.exports = {
     },
     extend: {
       gridTemplateRows: {
-        // Simple 8 row grid
-        8: 'repeat(8, minmax(0, 1fr))',
-
         // Complex site-specific row configuration
-        layout: '200px minmax(0, 200px) 500px',
+        layout: 'minmax(328px, 383px) 0 minmax(500px, 1fr) 100px',
       },
       margin: {
         '24px': '24px',
+      },
+      colors: {
+        primary: '#3fb195',
       },
     },
   },

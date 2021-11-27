@@ -123,15 +123,19 @@ nav {
   .nav_searchPlace {
     max-width: 306px;
     .location{
-      padding: 12px;
+      padding: 12px 12px 0 12px;
       border-radius: 12px;
       box-shadow: $box-shadow;
-      p{
+      button{
         padding: 8px;
-        border: #3FB195 1px solid;
+        border: $primary-color 1px solid;
         border-radius: 8px;
         margin-bottom: 12px;
         width: 78px;
+      }
+      .selBtn{
+        background-color: $primary-color;
+        color: white;
       }
     }
   }
