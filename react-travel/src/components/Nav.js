@@ -6,17 +6,17 @@ import $ from 'jquery';
 import axios from 'axios';
 //====== above api connect tool end ======//
 
-//====== below 加密 tool start ======//
-import jsSHA from 'jssha';
-//====== above 加密 tool end ======//
-
 //====== below 取得Context資料 start ======//
 import { useData } from '../utils/context';
 //====== above 取得Context資料 end ======//
 
-//====== below utils start ======//
+//====== below utils 縣市資料 start ======//
 import { destination } from '../utils/destination';
-//====== above utils end ======//
+//====== above utils 縣市資料 end ======//
+
+//====== below utils TDX驗證 start ======//
+import { getAuthorizationHeader } from '../utils/getAuthorizationHeader';
+//====== above utils TDX驗證 end ======//
 
 //====== img start ======//
 import logo from '../image/LOGO.svg';
@@ -36,13 +36,9 @@ function Nav() {
   const { setTravelData } = useData(); // 取得觀光Data
   const [keywordTxt, setKeywordTxt] = useState(''); // 搜尋的關鍵字
   console.log('keywordTxt out', keywordTxt); //for test FIXME:
-  const [theme, setTheme] = useState();
-  console.log('theme out', theme); //for test FIXME:
 
   //=== 搜尋關鍵字 Api star ===//
   async function sendSearch() {
-    // console.log('keywordTxt in', keywordTxt); //for test FIXME:
-
     try {
       const travelData = await axios.get(
         `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$filter=contains(Name,'${keywordTxt}')&$top=${30}&$format=JSON`,
@@ -50,30 +46,10 @@ function Nav() {
           headers: getAuthorizationHeader(),
         }
       );
-      // console.log('travelData', travelData.data); //for test FIXME:
       setTravelData(travelData.data);
     } catch (e) {
       console.log(e);
     }
-  }
-
-  function getAuthorizationHeader() {
-    //  填入自己 ID、KEY 開始
-    let AppID = process.env.REACT_APP_TDX_apiId;
-    let AppKey = process.env.REACT_APP_TDX_apiKey;
-    //  填入自己 ID、KEY 結束
-    let GMTString = new Date().toGMTString();
-    let ShaObj = new jsSHA('SHA-1', 'TEXT');
-    ShaObj.setHMACKey(AppKey, 'TEXT');
-    ShaObj.update('x-date: ' + GMTString);
-    let HMAC = ShaObj.getHMAC('B64');
-    let Authorization =
-      'hmac username="' +
-      AppID +
-      '", algorithm="hmac-sha1", headers="x-date", signature="' +
-      HMAC +
-      '"';
-    return { Authorization: Authorization, 'X-Date': GMTString };
   }
   //=== 搜尋關鍵字 Api end ===//
 
@@ -84,42 +60,6 @@ function Nav() {
     }
   };
   //=== 搜尋input完，按enter事件 end ===//
-
-  //=== 搜尋主題 Api star ===//
-  // const getValue = (event) => {
-  //   //按到img跑這邊找上一層的value
-  //   if (event.target.value === undefined) {
-  //     let themeVal = $(event.currentTarget).closest('button').val();
-  //     console.log('getValue theme', themeVal); //for test FIXME:
-  //     setTheme(themeVal);
-  //   } else {
-  //     console.log('getValue', event.target.value); //for test FIXME:
-  //     setTheme(event.target.value);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   if (!theme) {
-  //     return;
-  //   }
-  //   async function sendtheme() {
-  //     console.log('theme in', theme); //for test FIXME:
-  //     try {
-  //       const travelData = await axios.get(
-  //         `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/?$filter=contains(Class1,'${theme}')&$top=${30}&$format=JSON`,
-  //         {
-  //           headers: getAuthorizationHeader(),
-  //         }
-  //       );
-  //       console.log('travelData', travelData.data); //for test FIXME:
-  //       setTravelData(travelData.data);
-  //     } catch (e) {
-  //       console.log(e);
-  //     }
-  //   }
-  //   sendtheme();
-  // }, [theme]);
-  //=== 搜尋主題 Api end ===//
 
   //=== 顯示目的地btn start ===//
   const toggleLocation = (e) => {
@@ -200,7 +140,6 @@ function Nav() {
                 <Link
                   type="button"
                   to={`/F2E/古蹟類`}
-                  value={'古蹟類'}
                   className="circle_history"
                 >
                   <img src={history} alt="btn_history" />
@@ -208,49 +147,49 @@ function Nav() {
                 <p className="theme_font">歷史文化</p>
               </div>
               <div>
-                <button
-                  value={'自然風景類'}
-                  // onClick={getValue}
+                <Link
+                  type="button"
+                  to={`/F2E/自然風景類`}
                   className="circle_outside"
                 >
                   <img src={outside} alt="btn_outside" />
-                </button>
+                </Link>
                 <p className="theme_font">戶外踏青</p>
               </div>
             </div>
             {/* second row*/}
             <div className="flex justify-around mt-5">
               <div>
-                <button
-                  value={'廟宇類'}
-                  // onClick={getValue}
+                <Link
+                  type="button"
+                  to={`/F2E/廟宇類`}
                   className="circle_religion"
                 >
                   <img src={religion} alt="btn_religion" />
-                </button>
+                </Link>
                 <p className="theme_font">宗教巡禮</p>
               </div>
               <div>
-                <button
-                  value={'遊憩類'}
-                  // onClick={getValue}
+                <Link
+                  type="button"
+                  to={`/F2E/遊憩類`}
                   className="circle_lantern"
                 >
                   <img src={lantern} alt="btn_lantern" />
-                </button>
+                </Link>
                 <p className="theme_font">親子活動</p>
               </div>
             </div>
             {/* third row*/}
             <div className="flex justify-around mt-5">
               <div>
-                <button
-                  value={'國家風景區類'}
-                  // onClick={getValue}
+                <Link
+                  type="button"
+                  to={`/F2E/國家風景區類`}
                   className="circle_view"
                 >
                   <img src={view} alt="btn_view" />
-                </button>
+                </Link>
                 <p className="theme_font text-center">風景區</p>
               </div>
               <div>
