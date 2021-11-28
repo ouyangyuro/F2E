@@ -11,30 +11,30 @@ import jsSHA from 'jssha';
 //====== above 加密 tool end ======//
 
 //====== below 取得Context資料 start ======//
-import { useData } from '../../../utils/context';
+import { useData } from '../utils/context';
 //====== above 取得Context資料 end ======//
 
 //====== below utils start ======//
-import { destination } from '../../../utils/destination';
+import { destination } from '../utils/destination';
 //====== above utils end ======//
 
 //====== img start ======//
-import logo from '../../../image/LOGO.svg';
-import arrow from '../../../image/ArrowDown.svg';
-import search from '../../../image/Search.svg';
-import history from '../../../image/history.svg';
-import outside from '../../../image/outside.svg';
-import religion from '../../../image/religion.svg';
-import lantern from '../../../image/lantern.svg';
-import view from '../../../image/view.svg';
-import food from '../../../image/food.svg';
-import live from '../../../image/live.svg';
-import travel from '../../../image/travel.svg';
+import logo from '../image/LOGO.svg';
+import arrow from '../image/ArrowDown.svg';
+import search from '../image/Search.svg';
+import history from '../image/history.svg';
+import outside from '../image/outside.svg';
+import religion from '../image/religion.svg';
+import lantern from '../image/lantern.svg';
+import view from '../image/view.svg';
+import food from '../image/food.svg';
+import live from '../image/live.svg';
+import travel from '../image/travel.svg';
 //====== img end ======//
 
 function Nav() {
   const { setTravelData } = useData(); // 取得觀光Data
-  const [keywordTxt, setKeywordTxt] = useState(); // 搜尋的關鍵字
+  const [keywordTxt, setKeywordTxt] = useState(''); // 搜尋的關鍵字
   console.log('keywordTxt out', keywordTxt); //for test FIXME:
   const [theme, setTheme] = useState();
   console.log('theme out', theme); //for test FIXME:
@@ -86,40 +86,39 @@ function Nav() {
   //=== 搜尋input完，按enter事件 end ===//
 
   //=== 搜尋主題 Api star ===//
-  const getValue = (event) => {
-    //按到img跑這邊找上一層的value
-    if (event.target.value === undefined) {
-      let themeVal = $(event.currentTarget).closest('button').val();
-      console.log('getValue theme', themeVal); //for test FIXME:
-      setTheme(themeVal);
-    } else {
-      console.log('getValue', event.target.value); //for test FIXME:
-      setTheme(event.target.value);
-    }
-  };
+  // const getValue = (event) => {
+  //   //按到img跑這邊找上一層的value
+  //   if (event.target.value === undefined) {
+  //     let themeVal = $(event.currentTarget).closest('button').val();
+  //     console.log('getValue theme', themeVal); //for test FIXME:
+  //     setTheme(themeVal);
+  //   } else {
+  //     console.log('getValue', event.target.value); //for test FIXME:
+  //     setTheme(event.target.value);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (!theme) {
-      return;
-    }
-    async function sendtheme() {
-      console.log('theme in', theme); //for test FIXME:
-      let location = 'NewTaipei'; //fake TODO:
-      try {
-        const travelData = await axios.get(
-          `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/?$filter=contains(Class1,'${theme}')&$top=${30}&$format=JSON`,
-          {
-            headers: getAuthorizationHeader(),
-          }
-        );
-        console.log('travelData', travelData.data); //for test FIXME:
-        setTravelData(travelData.data);
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    sendtheme();
-  }, [theme]);
+  // useEffect(() => {
+  //   if (!theme) {
+  //     return;
+  //   }
+  //   async function sendtheme() {
+  //     console.log('theme in', theme); //for test FIXME:
+  //     try {
+  //       const travelData = await axios.get(
+  //         `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/?$filter=contains(Class1,'${theme}')&$top=${30}&$format=JSON`,
+  //         {
+  //           headers: getAuthorizationHeader(),
+  //         }
+  //       );
+  //       console.log('travelData', travelData.data); //for test FIXME:
+  //       setTravelData(travelData.data);
+  //     } catch (e) {
+  //       console.log(e);
+  //     }
+  //   }
+  //   sendtheme();
+  // }, [theme]);
   //=== 搜尋主題 Api end ===//
 
   //=== 顯示目的地btn start ===//
@@ -198,19 +197,20 @@ function Nav() {
             {/* first row*/}
             <div className="flex justify-around">
               <div>
-                <button
+                <Link
+                  type="button"
+                  to={`/F2E/古蹟類`}
                   value={'古蹟類'}
-                  onClick={getValue}
                   className="circle_history"
                 >
                   <img src={history} alt="btn_history" />
-                </button>
+                </Link>
                 <p className="theme_font">歷史文化</p>
               </div>
               <div>
                 <button
                   value={'自然風景類'}
-                  onClick={getValue}
+                  // onClick={getValue}
                   className="circle_outside"
                 >
                   <img src={outside} alt="btn_outside" />
@@ -223,7 +223,7 @@ function Nav() {
               <div>
                 <button
                   value={'廟宇類'}
-                  onClick={getValue}
+                  // onClick={getValue}
                   className="circle_religion"
                 >
                   <img src={religion} alt="btn_religion" />
@@ -233,7 +233,7 @@ function Nav() {
               <div>
                 <button
                   value={'遊憩類'}
-                  onClick={getValue}
+                  // onClick={getValue}
                   className="circle_lantern"
                 >
                   <img src={lantern} alt="btn_lantern" />
@@ -246,7 +246,7 @@ function Nav() {
               <div>
                 <button
                   value={'國家風景區類'}
-                  onClick={getValue}
+                  // onClick={getValue}
                   className="circle_view"
                 >
                   <img src={view} alt="btn_view" />
