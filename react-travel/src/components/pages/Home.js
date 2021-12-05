@@ -13,47 +13,99 @@ import { useData } from '../../utils/context';
 import { getAuthorizationHeader } from '../../utils/getAuthorizationHeader';
 //====== above utils TDX驗證 end ======//
 
+//====== img start ======//
+import icon from '../../image/icon.png';
+//====== img end ======//
+
 function Home() {
   const { setTravelData, travelData } = useData(); // 取得觀光Data
   const { theme } = useParams(); //取得精選主題
-  console.log('Home theme', theme); //for test FIXME:
+  // console.log('Home theme', theme); //for test FIXME:
 
   useEffect(() => {
+    //如果沒有指定 theme 就跑這邊
     if (!theme) {
+      //=== 搜尋全部景點 Api start ===//
+      async function sendspot() {
+        try {
+          const spotData = await axios.get(
+            `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/?&$top=${9}&$format=JSON`,
+            {
+              headers: getAuthorizationHeader(),
+            }
+          );
+          // console.log('Home spotData', spotData.data); //for test FIXME:
+          setTravelData(spotData.data);
+        } catch (e) {
+          console.log(e);
+        }
+      }
+      sendspot();
       return;
+      //=== 搜尋全部景點 Api end ===//
     }
+    //=== 搜尋主題 Api start ===//
     async function sendtheme() {
       try {
         const themeData = await axios.get(
-          `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/?$filter=contains(Class1,'${theme}')&$top=${30}&$format=JSON`,
+          `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot/?$filter=contains(Class1,'${theme}')&$top=${9}&$format=JSON`,
           {
             headers: getAuthorizationHeader(),
           }
         );
-        console.log('Home travelData', themeData.data); //for test FIXME:
+        // console.log('Home travelData', themeData.data); //for test FIXME:
         setTravelData(themeData.data);
       } catch (e) {
         console.log(e);
       }
     }
     sendtheme();
+    //=== 搜尋主題 Api end ===//
   }, [theme]);
-  //=== 搜尋主題 Api end ===//
 
   return (
     <>
-      <div>
-        <ul className="list">
+      <article className="hotSpot ml-5">熱門景點</article>
+      {travelData && (
+        <div className="flex flex-wrap justify-around gap-4 px-6">
           {travelData.map((item, i) => (
-            <li key={i}>{item.Name}</li>
-          ))}
-        </ul>
-      </div>
+            <div
+              key={i}
+              className="max-w-1/3 rounded-lg overflow-hidden card_shadow cursor-pointer transform transition duration-500 hover:scale-95"
+            >
+              {item.Picture.PictureUrl1 === undefined ? (
+                <img
+                  className="w-330px h-40 bg-gray-200 object-contain"
+                  src={icon}
+                  alt="spot pic"
+                />
+              ) : (
+                <img
+                  className="w-330px h-40 object-cover"
+                  src={item.Picture.PictureUrl1}
+                  alt="spot pic"
+                />
+              )}
 
-      <article></article>
-      <article></article>
-      <article></article>
-      <article></article>
+              <div className="px-6 py-4 h-full bg-white">
+                <div className="mb-2 card_title">{item.Name}</div>
+                {item.city === undefined ? (
+                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                    #{item.Address.substr(0, 3)}
+                  </span>
+                ) : (
+                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                    #{item.City}
+                  </span>
+                )}
+                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                  #{item.Phone}
+                </span>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
     </>
   );
 }

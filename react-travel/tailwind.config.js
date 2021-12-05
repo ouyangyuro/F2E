@@ -32,6 +32,13 @@ module.exports = {
       colors: {
         primary: '#3fb195',
       },
+      maxWidth: {
+        '1/3': '32%',
+        '330px': '330px',
+      },
+      width: {
+        '330px': '330px',
+      },
     },
   },
   variants: {

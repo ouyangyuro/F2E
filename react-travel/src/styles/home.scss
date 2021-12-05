@@ -187,6 +187,23 @@ nav {
 }
 //====== nav end ======//
 
+//====== main start ======//
+.hotSpot{
+  @include font-h3();
+}
+.hotSpot::before {
+  display: inline-block;
+  content: url(../image/Location.png);
+  width: 35px;
+}
+.card_shadow{
+  box-shadow: $box-shadow;
+  .card_title{
+    @include font-title;
+  }
+}
+//====== main end ======//
+
 //====== footer start ======//
 footer {
   height: 36px; 

@@ -35,13 +35,13 @@ import travel from '../image/travel.svg';
 function Nav() {
   const { setTravelData } = useData(); // 取得觀光Data
   const [keywordTxt, setKeywordTxt] = useState(''); // 搜尋的關鍵字
-  console.log('keywordTxt out', keywordTxt); //for test FIXME:
+  // console.log('keywordTxt out', keywordTxt); //for test FIXME:
 
   //=== 搜尋關鍵字 Api star ===//
   async function sendSearch() {
     try {
       const travelData = await axios.get(
-        `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$filter=contains(Name,'${keywordTxt}')&$top=${30}&$format=JSON`,
+        `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$filter=contains(Name,'${keywordTxt}')&$top=${9}&$format=JSON`,
         {
           headers: getAuthorizationHeader(),
         }
@@ -137,22 +137,19 @@ function Nav() {
             {/* first row*/}
             <div className="flex justify-around">
               <div>
-                <Link
-                  type="button"
-                  to={`/F2E/古蹟類`}
-                  className="circle_history"
-                >
-                  <img src={history} alt="btn_history" />
+                <Link to={`/F2E/古蹟類`}>
+                  {/* Link 裡面再用一層 button 而不是直接將 Link 的 type 設定為button 是因為safari無法吃到樣式 */}
+                  <button className="circle_history">
+                    <img src={history} alt="btn_history" />
+                  </button>
                 </Link>
                 <p className="theme_font">歷史文化</p>
               </div>
               <div>
-                <Link
-                  type="button"
-                  to={`/F2E/自然風景類`}
-                  className="circle_outside"
-                >
-                  <img src={outside} alt="btn_outside" />
+                <Link to={`/F2E/自然風景類`}>
+                  <button className="circle_outside">
+                    <img src={outside} alt="btn_outside" />
+                  </button>
                 </Link>
                 <p className="theme_font">戶外踏青</p>
               </div>
@@ -160,22 +157,18 @@ function Nav() {
             {/* second row*/}
             <div className="flex justify-around mt-5">
               <div>
-                <Link
-                  type="button"
-                  to={`/F2E/廟宇類`}
-                  className="circle_religion"
-                >
-                  <img src={religion} alt="btn_religion" />
+                <Link to={`/F2E/廟宇類`}>
+                  <button className="circle_religion">
+                    <img src={religion} alt="btn_religion" />
+                  </button>
                 </Link>
                 <p className="theme_font">宗教巡禮</p>
               </div>
               <div>
-                <Link
-                  type="button"
-                  to={`/F2E/遊憩類`}
-                  className="circle_lantern"
-                >
-                  <img src={lantern} alt="btn_lantern" />
+                <Link to={`/F2E/遊憩類`}>
+                  <button className="circle_lantern">
+                    <img src={lantern} alt="btn_lantern" />
+                  </button>
                 </Link>
                 <p className="theme_font">親子活動</p>
               </div>
@@ -183,12 +176,10 @@ function Nav() {
             {/* third row*/}
             <div className="flex justify-around mt-5">
               <div>
-                <Link
-                  type="button"
-                  to={`/F2E/國家風景區類`}
-                  className="circle_view"
-                >
-                  <img src={view} alt="btn_view" />
+                <Link to={`/F2E/國家風景區類`}>
+                  <button className="circle_view">
+                    <img src={view} alt="btn_view" />
+                  </button>
                 </Link>
                 <p className="theme_font text-center">風景區</p>
               </div>

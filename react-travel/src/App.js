@@ -20,50 +20,51 @@ import Footer from './components/Footer';
 //====== above pages components end ======//
 
 function App() {
-  const [travelData, setTravelData] = useState([]); // 存傳回來的觀光Data
+  const [travelData, setTravelData] = useState(); // 存傳回來的觀光Data
 
-  console.log('App travelData', travelData);
+  // console.log('App travelData', travelData); //for test FIXME:
 
   return (
     <DataContext.Provider value={{ travelData, setTravelData }}>
       <Router>
         <>
-          <ScrollToTop>
-            <div className="container mx-auto">
-              <div className="wrap bg-gray-50">
-                <div className="grid grid-rows-layout grid-cols-4 min-h-screen">
-                  {/* <!-- =========nav start========= --> */}
-                  <nav className="row-span-6 auto-cols-max bg-white">
-                    <Nav />
-                  </nav>
-                  {/* <!-- =========nav end========= --> */}
+          {/* <ScrollToTop> */}
+          <div className="container mx-auto">
+            <div className="wrap bg-gray-50">
+              <div className="grid grid-rows-layout grid-cols-4 min-h-screen">
+                {/* <!-- =========nav start========= --> */}
+                <nav className="row-span-6 auto-cols-max bg-white">
+                  <Nav />
+                </nav>
+                {/* <!-- =========nav end========= --> */}
 
-                  {/* <!-- =========header start========= --> */}
-                  <header className="row-span-2 col-span-3">
-                    <Header />
-                  </header>
-                  {/* <!-- =========header end========= --> */}
+                {/* <!-- =========header start========= --> */}
+                <header className="row-span-2 col-span-3">
+                  <Header />
+                </header>
+                {/* <!-- =========header end========= --> */}
 
-                  {/* <!-- =========main start========= --> */}
-                  <main className="row-span-3 col-span-3 bg-green-300">
-                    <Switch>
-                      {/* //===homepage 路由放最下面===// */}
-                      <Route exact path="/F2E/:theme">
-                        <Home />
-                      </Route>
-                    </Switch>
-                  </main>
-                  {/* <!-- =========main end========= --> */}
+                {/* <!-- =========main start========= --> */}
+                <main className="row-span-3 col-span-3">
+                  <Switch>
+                    {/* //===homepage 路由放最下面===// */}
+                    <Route exact path="/F2E/:theme?">
+                      {/* ?代表沒給參數也沒關係 */}
+                      <Home />
+                    </Route>
+                  </Switch>
+                </main>
+                {/* <!-- =========main end========= --> */}
 
-                  {/* <!-- =========footer start========= --> */}
-                  <footer className="row-span-1 col-span-3 relative">
-                    <Footer />
-                  </footer>
-                  {/* <!-- =========footer end========= --> */}
-                </div>
+                {/* <!-- =========footer start========= --> */}
+                <footer className="row-span-1 col-span-3 mt-6 relative">
+                  <Footer />
+                </footer>
+                {/* <!-- =========footer end========= --> */}
               </div>
             </div>
-          </ScrollToTop>
+          </div>
+          {/* </ScrollToTop> */}
         </>
       </Router>
     </DataContext.Provider>
