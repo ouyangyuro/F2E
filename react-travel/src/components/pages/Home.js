@@ -89,7 +89,7 @@ function Home() {
 
               <div className="px-6 py-4 h-full bg-white">
                 <div className="mb-2 card_title">{item.Name}</div>
-                {item.city === undefined ? (
+                {item.City === undefined ? (
                   <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
                     #{item.Address.substr(0, 3)}
                   </span>

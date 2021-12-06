@@ -70,6 +70,7 @@ function Nav() {
   //=== 目的地btn被選擇時變色 start ===//
   const selBtn = (e) => {
     $(e.currentTarget).toggleClass('selBtn');
+    $(e.currentTarget).siblings().removeClass('selBtn'); //清除其他被選擇的btn
   };
   //=== 顯示目的地btn被選擇時變色 end ===//
 
@@ -92,7 +93,7 @@ function Nav() {
             </button>
             <input
               type="text"
-              className="mt-4 rounded-md 2xl:w-full xl:w-5/6 lg:w-2/3 border-gray-200 bg-gray-100 text-gray-700 focus:border-gray-500 focus:bg-white"
+              className="location_input mt-4 rounded-md 2xl:w-full xl:w-5/6 lg:w-2/3 border-gray-200 bg-gray-100 text-gray-700 focus:border-gray-500 focus:bg-white"
               placeholder="目的地"
             />
             <div className="location hidden absolute bg-white z-20">
@@ -100,6 +101,7 @@ function Nav() {
                 {destination.map((location, i) => (
                   <button
                     className="hover:bg-primary hover:text-white"
+                    value={location.locationValue}
                     onClick={selBtn}
                     key={i}
                   >
