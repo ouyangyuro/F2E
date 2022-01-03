@@ -14,6 +14,7 @@ import './styles/home.scss';
 
 //====== below pages components start ======//
 import Home from './components/pages/Home';
+import CardDetail from './components/pages/CardDetail';
 import Nav from './components/Nav';
 import Header from './components/Header';
 import Footer from './components/Footer';
@@ -22,7 +23,7 @@ import Footer from './components/Footer';
 function App() {
   const [travelData, setTravelData] = useState(); // 存傳回來的觀光Data
 
-  // console.log('App travelData', travelData); //for test FIXME:
+  console.log('App travelData', travelData); //for test FIXME:
 
   return (
     <DataContext.Provider value={{ travelData, setTravelData }}>
@@ -38,23 +39,41 @@ function App() {
                 </nav>
                 {/* <!-- =========nav end========= --> */}
 
-                {/* <!-- =========header start========= --> */}
-                <header className="row-span-2 col-span-3">
-                  <Header />
-                </header>
-                {/* <!-- =========header end========= --> */}
+                <Switch>
+                  {/* //===CardDetail 路由 start===// */}
+                  {/* <!-- =========header start========= --> */}
+                  <Route exact path="/F2E/detail/:id">
+                    {/* ?代表沒給參數也沒關係 */}
+                    {/* <header className="row-span-2 col-span-3"></header> */}
+                    {/* <!-- =========header end========= --> */}
 
-                {/* <!-- =========main start========= --> */}
-                <main className="row-span-3 col-span-3">
-                  <Switch>
-                    {/* //===homepage 路由放最下面===// */}
-                    <Route exact path="/F2E/:theme?">
+                    {/* <!-- =========main start========= --> */}
+                    <main className="row-span-5 col-span-3">
+                      {/* ?代表沒給參數也沒關係 */}
+                      <CardDetail />
+                    </main>
+                  </Route>
+                  {/* <!-- =========main end========= --> */}
+                  {/* //===CardDetail 路由 end===// */}
+
+                  {/* //===homepage 路由放最下面 start===// */}
+                  {/* <!-- =========header start========= --> */}
+                  <Route exact path="/F2E/:theme?">
+                    {/* ?代表沒給參數也沒關係 */}
+                    <header className="row-span-2 col-span-3">
+                      <Header />
+                    </header>
+                    {/* <!-- =========header end========= --> */}
+
+                    {/* <!-- =========main start========= --> */}
+                    <main className="row-span-3 col-span-3">
                       {/* ?代表沒給參數也沒關係 */}
                       <Home />
-                    </Route>
-                  </Switch>
-                </main>
-                {/* <!-- =========main end========= --> */}
+                    </main>
+                  </Route>
+                  {/* <!-- =========main end========= --> */}
+                  {/* //===homepage 路由放最下面 end===// */}
+                </Switch>
 
                 {/* <!-- =========footer start========= --> */}
                 <footer className="row-span-1 col-span-3 mt-6 relative">

@@ -36,27 +36,30 @@ function Nav() {
   const { setTravelData } = useData(); // 取得觀光Data
   const [keywordTxt, setKeywordTxt] = useState(''); // 搜尋的關鍵字
   // console.log('keywordTxt out', keywordTxt); //for test FIXME:
-
+  const [sendToggle, setSendToggle] = useState(false);
   //=== 搜尋關鍵字 Api star ===//
-  async function sendSearch() {
-    try {
-      const travelData = await axios.get(
-        `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$filter=contains(Name,'${keywordTxt}')&$top=${9}&$format=JSON`,
-        {
-          headers: getAuthorizationHeader(),
-        }
-      );
-      setTravelData(travelData.data);
-    } catch (e) {
-      console.log(e);
+  useEffect(() => {
+    async function sendSearch() {
+      try {
+        const travelData = await axios.get(
+          `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$filter=contains(Name,'${keywordTxt}')&$top=${9}&$format=JSON`,
+          {
+            headers: getAuthorizationHeader(),
+          }
+        );
+        setTravelData(travelData.data);
+      } catch (e) {
+        console.log(e);
+      }
     }
-  }
+    sendSearch();
+  }, [sendToggle]);
   //=== 搜尋關鍵字 Api end ===//
 
   //=== 搜尋input完，按enter事件 start ===//
   const handleEnterKey = (e) => {
     if (e.nativeEvent.keyCode === 13) {
-      sendSearch();
+      !sendToggle ? setSendToggle(true) : setSendToggle(false);
     }
   };
   //=== 搜尋input完，按enter事件 end ===//
@@ -72,14 +75,22 @@ function Nav() {
     $(e.currentTarget).toggleClass('selBtn');
     $(e.currentTarget).siblings().removeClass('selBtn'); //清除其他被選擇的btn
   };
+
   //=== 顯示目的地btn被選擇時變色 end ===//
+
+  //=== 按 home logo btn start ===//
+  const togglehome = (e) => {
+    setKeywordTxt(''); //以防搜尋關鍵字
+    !sendToggle ? setSendToggle(true) : setSendToggle(false);
+  };
+  //=== 按 home logo btn end ===//
 
   return (
     <>
       <div className="nav_container sticky top-0">
         <div className="nav_top">
           {/* to home */}
-          <Link to="/F2E" className="nav_logo">
+          <Link to="/F2E" className="nav_logo" onClick={togglehome}>
             <img src={logo} alt="nav logo" />
           </Link>
           <div className="nav_searchPlace relative">
@@ -113,7 +124,11 @@ function Nav() {
             {/*above search places */}
 
             {/*below search keyword */}
-            <button onClick={sendSearch}>
+            <button
+              onClick={() => {
+                !sendToggle ? setSendToggle(true) : setSendToggle(false);
+              }}
+            >
               <img
                 src={search}
                 alt="btn_search"

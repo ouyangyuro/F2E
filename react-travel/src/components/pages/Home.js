@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 //====== below api connect tool start ======//
 import axios from 'axios';
@@ -24,6 +24,7 @@ function Home() {
 
   useEffect(() => {
     //如果沒有指定 theme 就跑這邊
+    console.log('hi no theme');
     if (!theme) {
       //=== 搜尋全部景點 Api start ===//
       async function sendspot() {
@@ -73,35 +74,37 @@ function Home() {
               key={i}
               className="max-w-1/3 rounded-lg overflow-hidden card_shadow cursor-pointer transform transition duration-500 hover:scale-95"
             >
-              {item.Picture.PictureUrl1 === undefined ? (
-                <img
-                  className="w-330px h-40 bg-gray-200 object-contain"
-                  src={icon}
-                  alt="spot pic"
-                />
-              ) : (
-                <img
-                  className="w-330px h-40 object-cover"
-                  src={item.Picture.PictureUrl1}
-                  alt="spot pic"
-                />
-              )}
-
-              <div className="px-6 py-4 h-full bg-white">
-                <div className="mb-2 card_title">{item.Name}</div>
-                {item.City === undefined ? (
-                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                    #{item.Address.substr(0, 3)}
-                  </span>
+              <Link to={'/F2E/detail/' + item.ID}>
+                {item.Picture.PictureUrl1 === undefined ? (
+                  <img
+                    className="w-330px h-40 bg-gray-200 object-contain"
+                    src={icon}
+                    alt="spot pic"
+                  />
                 ) : (
-                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                    #{item.City}
-                  </span>
+                  <img
+                    className="w-330px h-40 object-cover"
+                    src={item.Picture.PictureUrl1}
+                    alt="spot pic"
+                  />
                 )}
-                <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                  #{item.Phone}
-                </span>
-              </div>
+
+                <div className="px-6 py-4 h-full bg-white">
+                  <div className="mb-2 card_title">{item.Name}</div>
+                  {item.City === undefined ? (
+                    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                      #{item.Address.substr(0, 3)}
+                    </span>
+                  ) : (
+                    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                      #{item.City}
+                    </span>
+                  )}
+                  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+                    #{item.Phone}
+                  </span>
+                </div>
+              </Link>
             </div>
           ))}
         </div>
