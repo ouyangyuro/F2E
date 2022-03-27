@@ -1,17 +1,17 @@
-import React from 'react';
+import { useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 
 // 頁面切換時要用捲軸讓頁面回到最上方
-class ScrollToTop extends React.Component {
-  componentDidUpdate(prevProps) {
-    if (this.props.location !== prevProps.location) {
-      window.scrollTo(0, 0);
-    }
-  }
+const ScrollToTop = ({ children, location: { pathname } }) => {
+  useEffect(() => {
+    window.scrollTo({
+      top: 0,
+      left: 0,
+      behavior: 'smooth',
+    });
+  }, [pathname]);
 
-  render() {
-    return this.props.children;
-  }
-}
+  return children || null;
+};
 
 export default withRouter(ScrollToTop);

@@ -20,11 +20,10 @@ import icon from '../../image/icon.png';
 function Home() {
   const { setTravelData, travelData } = useData(); // 取得觀光Data
   const { theme } = useParams(); //取得精選主題
-  // console.log('Home theme', theme); //for test FIXME:
+  console.log('Home theme', theme); //for test FIXME:
 
   useEffect(() => {
     //如果沒有指定 theme 就跑這邊
-    console.log('hi no theme');
     if (!theme) {
       //=== 搜尋全部景點 Api start ===//
       async function sendspot() {
@@ -42,6 +41,7 @@ function Home() {
         }
       }
       sendspot();
+      console.log('hi no theme');
       return;
       //=== 搜尋全部景點 Api end ===//
     }
@@ -57,7 +57,7 @@ function Home() {
         // console.log('Home travelData', themeData.data); //for test FIXME:
         setTravelData(themeData.data);
       } catch (e) {
-        console.log(e);
+        console.log('error:', e);
       }
     }
     sendtheme();
@@ -74,7 +74,7 @@ function Home() {
               key={i}
               className="max-w-1/3 rounded-lg overflow-hidden card_shadow cursor-pointer transform transition duration-500 hover:scale-95"
             >
-              <Link to={'/F2E/detail/' + item.ID}>
+              <Link to={'/F2E/detail/' + i}>
                 {item.Picture.PictureUrl1 === undefined ? (
                   <img
                     className="w-330px h-40 bg-gray-200 object-contain"
@@ -91,13 +91,13 @@ function Home() {
 
                 <div className="px-6 py-4 h-full bg-white">
                   <div className="mb-2 card_title">{item.Name}</div>
-                  {item.City === undefined ? (
+                  {item.ScenicSpotName === undefined ? (
                     <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                      #{item.Address.substr(0, 3)}
+                      #無
                     </span>
                   ) : (
                     <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
-                      #{item.City}
+                      #{item.ScenicSpotName}
                     </span>
                   )}
                   <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">

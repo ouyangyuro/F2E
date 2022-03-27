@@ -39,6 +39,10 @@ module.exports = {
       width: {
         '330px': '330px',
       },
+      colors: {
+        primary_green: '#3FB195',
+        info_Bg: 'rgba(63, 177, 149, 0.08)',
+      },
     },
   },
   variants: {

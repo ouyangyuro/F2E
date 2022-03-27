@@ -88,6 +88,7 @@ function Nav() {
   return (
     <>
       <div className="nav_container sticky top-0">
+        <div className="h-[40px] text-white">fack space</div>
         <div className="nav_top">
           {/* to home */}
           <Link to="/F2E" className="nav_logo" onClick={togglehome}>
