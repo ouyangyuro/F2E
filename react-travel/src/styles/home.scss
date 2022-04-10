@@ -70,6 +70,13 @@ $circle_border-radius: 50%;
   line-height: 24px;
   letter-spacing: 0.5px;
 }
+
+@mixin font-cardDetail {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 18px;
+  line-height: 24px;
+}
 //====== for all setting end ======//
 
 //====== container start ======//
@@ -114,7 +121,6 @@ nav {
 }
 
 .nav_top {
-  margin-top: 40px;
   .nav_logo {
     img {
       max-width: 116.5px;
@@ -122,18 +128,18 @@ nav {
   }
   .nav_searchPlace {
     max-width: 306px;
-    .location{
+    .location {
       padding: 12px 12px 0 12px;
       border-radius: 12px;
       box-shadow: $box-shadow;
-      button{
+      button {
         padding: 8px;
         border: $primary-color 1px solid;
         border-radius: 8px;
         margin-bottom: 12px;
         width: 78px;
       }
-      .selBtn{
+      .selBtn {
         background-color: $primary-color;
         color: white;
       }
@@ -188,7 +194,7 @@ nav {
 //====== nav end ======//
 
 //====== main start ======//
-.hotSpot{
+.hotSpot {
   @include font-h3();
 }
 .hotSpot::before {
@@ -196,17 +202,26 @@ nav {
   content: url(../image/Location.png);
   width: 35px;
 }
-.card_shadow{
+.card_shadow {
   box-shadow: $box-shadow;
-  .card_title{
+  .card_title {
     @include font-title;
   }
 }
 //====== main end ======//
 
+//====== CardDetail start ======//
+.description_title{
+  @include font-cardDetail;
+}
+.cardSpot {
+  @include font-h3();
+}
+//====== CardDetail end ======//
+
 //====== footer start ======//
 footer {
-  height: 36px; 
+  height: 36px;
   border-radius: 0 0 $radius 0;
   background-color: $primary-color;
   p {

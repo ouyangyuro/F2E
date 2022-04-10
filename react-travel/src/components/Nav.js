@@ -35,14 +35,14 @@ import travel from '../image/travel.svg';
 function Nav() {
   const { setTravelData } = useData(); // 取得觀光Data
   const [keywordTxt, setKeywordTxt] = useState(''); // 搜尋的關鍵字
-  // console.log('keywordTxt out', keywordTxt); //for test FIXME:
+  console.log('keywordTxt Nav', keywordTxt); //for test FIXME:
   const [sendToggle, setSendToggle] = useState(false);
   //=== 搜尋關鍵字 Api star ===//
   useEffect(() => {
     async function sendSearch() {
       try {
         const travelData = await axios.get(
-          `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$filter=contains(Name,'${keywordTxt}')&$top=${9}&$format=JSON`,
+          `https://ptx.transportdata.tw/MOTC/v2/Tourism/ScenicSpot?$filter=contains(Keyword,'${keywordTxt}')&$top=${9}&$format=JSON`,
           {
             headers: getAuthorizationHeader(),
           }
@@ -75,8 +75,7 @@ function Nav() {
     $(e.currentTarget).toggleClass('selBtn');
     $(e.currentTarget).siblings().removeClass('selBtn'); //清除其他被選擇的btn
   };
-
-  //=== 顯示目的地btn被選擇時變色 end ===//
+  //=== 目的地btn被選擇時變色 end ===//
 
   //=== 按 home logo btn start ===//
   const togglehome = (e) => {
@@ -88,6 +87,7 @@ function Nav() {
   return (
     <>
       <div className="nav_container sticky top-0">
+        <div className="h-[40px] text-white">fack space</div>
         <div className="nav_top">
           {/* to home */}
           <Link to="/F2E" className="nav_logo" onClick={togglehome}>
@@ -111,7 +111,7 @@ function Nav() {
               <div className="flex flex-wrap justify-between">
                 {destination.map((location, i) => (
                   <button
-                    className="hover:bg-primary hover:text-white"
+                    className="hover:bg-primary hover:text-white hover:bg-primary_green"
                     value={location.locationValue}
                     onClick={selBtn}
                     key={i}

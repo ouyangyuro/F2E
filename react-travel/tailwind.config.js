@@ -29,15 +29,16 @@ module.exports = {
       margin: {
         '24px': '24px',
       },
-      colors: {
-        primary: '#3fb195',
-      },
       maxWidth: {
         '1/3': '32%',
         '330px': '330px',
       },
       width: {
         '330px': '330px',
+      },
+      colors: {
+        primary_green: '#3FB195',
+        info_Bg: 'rgba(63, 177, 149, 0.08)',
       },
     },
   },
