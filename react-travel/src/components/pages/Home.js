@@ -64,9 +64,22 @@ function Home() {
     //=== 搜尋主題 Api end ===//
   }, [theme]);
 
+  let hotSpotTitle;
+  theme === '古蹟類'
+    ? (hotSpotTitle = '歷史文化')
+    : theme === '自然風景類'
+    ? (hotSpotTitle = '戶外踏青')
+    : theme === '遊憩類'
+    ? (hotSpotTitle = '親子活動')
+    : theme === '廟宇類'
+    ? (hotSpotTitle = '宗教巡禮')
+    : theme === '國家風景區類'
+    ? (hotSpotTitle = '風景區')
+    : (hotSpotTitle = '熱門景點');
+
   return (
     <>
-      <article className="hotSpot ml-5">熱門景點</article>
+      <article className="hotSpot ml-5 mb-4">{hotSpotTitle}</article>
       {travelData && (
         <div className="flex flex-wrap justify-around gap-4 px-6">
           {travelData.map((item, i) => (

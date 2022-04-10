@@ -29,9 +29,6 @@ module.exports = {
       margin: {
         '24px': '24px',
       },
-      colors: {
-        primary: '#3fb195',
-      },
       maxWidth: {
         '1/3': '32%',
         '330px': '330px',

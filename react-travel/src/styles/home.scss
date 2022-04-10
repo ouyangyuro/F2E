@@ -214,6 +214,9 @@ nav {
 .description_title{
   @include font-cardDetail;
 }
+.cardSpot {
+  @include font-h3();
+}
 //====== CardDetail end ======//
 
 //====== footer start ======//
